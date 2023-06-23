@@ -15,7 +15,7 @@ public interface UsersService {
     ServiceResult userRegistration(UsersInput usersInput);
 
     // 고객의 이메일 / 비밀번호 검증하여 토큰 발행
-    ServiceResult userLogin(UserLoginInput userLoginInput,Errors errors);
+    ServiceResult userLogin(UserLoginInput userLoginInput);
     String tokenIssue(Users user);
 
 

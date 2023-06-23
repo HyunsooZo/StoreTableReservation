@@ -28,7 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -53,11 +52,7 @@ public class UsersServiceImpl implements UsersService {
         return optionalUser.get();
     }
 
-    @ExceptionHandler(InvalidLoginException.class)
-    public ResponseEntity<String> InvalidLoginExceptionHandler(InvalidLoginException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
 
-    }
 
     //비번 암호화 함수
     private String getEncryptPassword(String password) {
@@ -88,18 +83,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public ServiceResult userLogin(UserLoginInput userLoginInput,Errors errors) {
-        if (errors.hasErrors()) {
-            List<ObjectError> errorsList = errors.getAllErrors();
-            log.info("에러가 발생했습니다. :{}" ,errorsList);
-            return ServiceResult.fail("로그인 도중 문제가 발생했습니다.");
-        }
+    public ServiceResult userLogin(UserLoginInput userLoginInput) {
 
         Users user = usersRepository.findByEmail(userLoginInput.getEmail())
                 .orElseThrow(()-> new InvalidLoginException("존재하지 않는 회원 입니다."));
 
         if(!PasswordUtil.isPasswordValid(userLoginInput.getPassword(), user.getPassword())){
-            return ServiceResult.fail("비밀번호가 일치하지 않습니다.");
+            throw new InvalidLoginException("비밀번호가 일치하지 않습니다.");
         }
 
         //비밀번호, 회원정보 유무 여부 확인 후 유효한 로그인 정보 일 시 토큰 정보 반환

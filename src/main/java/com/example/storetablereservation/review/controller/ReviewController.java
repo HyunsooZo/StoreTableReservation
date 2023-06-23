@@ -25,7 +25,7 @@ public class ReviewController {
         Users user = usersService.getUserFromToken(token);
         ServiceResult result = reviewService.reviewUpdate(user, id, reviewInput);
 
-        return ResponseResult.success(result.getMessage());
+        return ResponseResult.result(result.getMessage());
     }
 
     @GetMapping("/api/review/store/{id}/")

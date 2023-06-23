@@ -23,6 +23,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.storetablereservation.reservation.model.Status.REJECTED;
+import static com.example.storetablereservation.reservation.model.Status.WAITING;
+
 @RequiredArgsConstructor
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -67,7 +70,7 @@ public class ReservationServiceImpl implements ReservationService {
                         .reservationTime(reservationInput.getReservationTime())
                         .checkInYn(false)
                         .regDate(LocalDateTime.now())
-                        .status(Status.WAITING)
+                        .status(WAITING)
                         .build()
         );
         Optional<Reservation> optionalReservation = reservationRepository.findByUser(user);
@@ -90,9 +93,9 @@ public class ReservationServiceImpl implements ReservationService {
         }
         Reservation reservation = optionalReservation.get();
 
-        if(reservation.getStatus().equals(Status.REJECTED)) {
+        if(reservation.getStatus().equals(REJECTED)) {
             return ServiceResult.fail("매장으로부터 거절된 예약입니다.");
-        }else if(reservation.getStatus().equals(Status.WAITING)) {
+        }else if(reservation.getStatus().equals(WAITING)) {
             return ServiceResult.fail("매장에서 예약을 아직 승인하지 않았습니다.");
         }
 
@@ -132,7 +135,7 @@ public class ReservationServiceImpl implements ReservationService {
             return ServiceResult.fail("예약내역이 존재하지 않습니다.");
         }
         Reservation reservation = optionalReservation.get();
-        reservation.setStatus(Status.REJECTED);
+        reservation.setStatus(REJECTED);
         reservation.setAcceptedDate(LocalDateTime.now());
         reservationRepository.save(reservation);
 
@@ -161,9 +164,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<Reservation> reservationList = optionalReservation.get();
 
-        if(reservationList.size()<1){
-            return ServiceResult.fail("목록없음");
-        }
         return ServiceResult.success(reservationList);
     }
 }

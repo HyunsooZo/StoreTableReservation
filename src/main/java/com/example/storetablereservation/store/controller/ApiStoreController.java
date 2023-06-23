@@ -59,6 +59,10 @@ public class ApiStoreController {
         usersService.getUserFromToken(token);
         ServiceResult storeDetail = storeService.getStoreDetail(id);
 
+        if(storeDetail.isFail()){
+            return ResponseResult.fail(storeDetail.getMessage());
+        }
+
         return ResponseResult.result(storeDetail.getObject());
     }
 
