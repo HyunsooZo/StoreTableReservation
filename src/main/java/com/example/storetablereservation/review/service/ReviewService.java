@@ -7,7 +7,7 @@ import com.example.storetablereservation.users.entity.Users;
 public interface ReviewService {
 
     //리뷰 작성 (별점, 코멘트)
-    ServiceResult reviewUpdate(Users user, Long id , ReviewInput reviewInput);
+    ServiceResult reviewPost(Users user, Long id , ReviewInput reviewInput);
 
 
     ServiceResult getStoreReviews(Long id);

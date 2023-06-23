@@ -36,7 +36,7 @@ public class Reservation {
     private LocalDateTime reservationTime;
 
     @Column
-    private boolean checkInYn;
+    private Boolean checkInYn;
 
     @Column
     private Status status;

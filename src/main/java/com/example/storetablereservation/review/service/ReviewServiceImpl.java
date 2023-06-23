@@ -1,7 +1,9 @@
 package com.example.storetablereservation.review.service;
 
+import com.example.storetablereservation.common.exception.ReviewException;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.reservation.entity.Reservation;
+import com.example.storetablereservation.reservation.model.Status;
 import com.example.storetablereservation.reservation.repository.ReservationRepository;
 import com.example.storetablereservation.review.entity.Review;
 import com.example.storetablereservation.review.model.ReviewInput;
@@ -42,13 +44,17 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public ServiceResult reviewUpdate(Users user , Long id , ReviewInput reviewInput) {
+    public ServiceResult reviewPost(Users user , Long id , ReviewInput reviewInput) {
         Optional<Reservation> optionalReservation =
                 reservationRepository.findById(id);
         if(!optionalReservation.isPresent()){
-            return ServiceResult.fail("유효하지 않은 예약입니다.");
+            throw new ReviewException("해당계정으로 작성할 수 있는 리뷰가 없습니다.");
         }
         Reservation reservation = optionalReservation.get();
+
+        if(!reservation.getCheckInYn()){
+            throw new ReviewException("아직 진행되지 않은 예약입니다. 예약 확인 후 리뷰를 작성할 수 있습니다.");
+        }
         int rate = getAverageRateOfTheStore(reviewInput.getRate(), reservation.getStore());
 
         reviewRepository.save(
@@ -67,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService{
     public ServiceResult getStoreReviews(Long id) {
         Optional<Store> optionalStore = storeRepository.findById(id);
         if(!optionalStore.isPresent()){
-            return ServiceResult.fail("존재하지 않는 매장입니다.");
+            throw new ReviewException("존재하지 않는 매장입니다");
         }
         Store store = optionalStore.get();
         Optional<List<Review>> optionalReviewList = reviewRepository.findByStore(store);

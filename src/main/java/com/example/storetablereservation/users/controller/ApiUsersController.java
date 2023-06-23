@@ -1,6 +1,7 @@
 package com.example.storetablereservation.users.controller;
 
 import com.example.storetablereservation.common.exception.InvalidLoginException;
+import com.example.storetablereservation.common.exception.InvalidTokenException;
 import com.example.storetablereservation.common.model.ResponseError;
 import com.example.storetablereservation.common.model.ResponseResult;
 import com.example.storetablereservation.common.model.ServiceResult;
@@ -68,6 +69,10 @@ public class ApiUsersController {
 
     @ExceptionHandler(InvalidLoginException.class)
     public ResponseEntity<String> InvalidLoginExceptionHandler(InvalidLoginException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<String> InvalidTokenExceptionHandler(InvalidTokenException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

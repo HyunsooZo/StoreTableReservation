@@ -17,9 +17,7 @@ import com.example.storetablereservation.users.model.UserType;
 import com.example.storetablereservation.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -94,10 +92,10 @@ public class ReservationServiceImpl implements ReservationService {
         }
         Reservation reservation = optionalReservation.get();
 
-        if(reservation.getStatus().equals(REJECTED)) {
-            return ServiceResult.fail("매장으로부터 거절된 예약입니다.");
-        }else if(reservation.getStatus().equals(WAITING)) {
-            return ServiceResult.fail("매장에서 예약을 아직 승인하지 않았습니다.");
+        if(reservation.getStatus()==REJECTED) {
+            throw new ReservationException("매장으로부터 거절된 예약입니다.");
+        }else if(reservation.getStatus()==WAITING) {
+            throw new ReservationException("매장에서 아직 승인하지 않은 예약입니다.");
         }
 
         reservation.setCheckInYn(true);

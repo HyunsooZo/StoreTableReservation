@@ -1,6 +1,8 @@
 package com.example.storetablereservation.review.controller;
 
 
+import com.example.storetablereservation.common.exception.InvalidLoginException;
+import com.example.storetablereservation.common.exception.ReviewException;
 import com.example.storetablereservation.common.model.ResponseResult;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.review.model.ReviewInput;
@@ -8,6 +10,7 @@ import com.example.storetablereservation.review.service.ReviewService;
 import com.example.storetablereservation.users.entity.Users;
 import com.example.storetablereservation.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,19 +26,24 @@ public class ReviewController {
             @RequestBody ReviewInput reviewInput){
 
         Users user = usersService.getUserFromToken(token);
-        ServiceResult result = reviewService.reviewUpdate(user, id, reviewInput);
+        ServiceResult result = reviewService.reviewPost(user, id, reviewInput);
 
         return ResponseResult.result(result.getMessage());
     }
 
     @GetMapping("/api/review/store/{id}/")
-    public ResponseEntity<?> reviewList(
+    public ResponseEntity<?> StoreReviews(
             @PathVariable Long id,
-            @RequestHeader String token){
+            @RequestHeader("STORE-TOKEN") String token){
 
         usersService.getUserFromToken(token);
         ServiceResult result = reviewService.getStoreReviews(id);
 
         return ResponseResult.success(result.getObject());
+    }
+
+    @ExceptionHandler(ReviewException.class)
+    public ResponseEntity<String> ReviewExceptionHandler(ReviewException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
