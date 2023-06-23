@@ -27,19 +27,7 @@ import java.util.List;
 public class ApiUsersController {
     private final UsersService usersService;
 
-    @PostMapping("/api/user/registration")
-    public ResponseEntity<?> registration(
-            @RequestBody @Valid UsersInput usersInput,
-            Errors errors) {
-
-        ResponseEntity<?> responseErrorList1 = validationError(errors);
-        if (responseErrorList1 != null) return responseErrorList1;
-
-        ServiceResult result = usersService.userRegistration(usersInput);
-        return ResponseResult.result(result);
-    }
-
-    private ResponseEntity<?> validationError(Errors errors) {
+    private ResponseEntity<?> errorValidation(Errors errors) {
         List<ResponseError> responseErrorList = new ArrayList<>();
 
         if (errors.hasErrors()) {
@@ -51,11 +39,23 @@ public class ApiUsersController {
         return null;
     }
 
-    @PostMapping("/api/user/login")
+    @PostMapping("/api/user/registration")
+    public ResponseEntity<?> registration(
+            @RequestBody @Valid UsersInput usersInput,
+            Errors errors) {
+
+        ResponseEntity<?> responseErrorList1 = errorValidation(errors);
+        if (responseErrorList1 != null) return responseErrorList1;
+
+        ServiceResult result = usersService.userRegistration(usersInput);
+        return ResponseResult.result(result);
+    }
+
+      @PostMapping("/api/user/login")
     public ResponseEntity<?> createToken(
             @RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
 
-        ResponseEntity<?> responseErrorList = validationError(errors);
+        ResponseEntity<?> responseErrorList = errorValidation(errors);
         if (responseErrorList != null) return responseErrorList;
 
         ServiceResult result = usersService.userLogin(userLoginInput);

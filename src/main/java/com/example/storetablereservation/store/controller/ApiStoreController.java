@@ -1,6 +1,9 @@
 package com.example.storetablereservation.store.controller;
 
 
+import com.example.storetablereservation.common.exception.InvalidLoginException;
+import com.example.storetablereservation.common.exception.StoreRegistrationException;
+import com.example.storetablereservation.common.model.ResponseError;
 import com.example.storetablereservation.common.model.ResponseResult;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.store.model.StoreInput;
@@ -9,10 +12,15 @@ import com.example.storetablereservation.store.service.StoreService;
 import com.example.storetablereservation.users.entity.Users;
 import com.example.storetablereservation.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,11 +28,27 @@ public class ApiStoreController {
     private final StoreService storeService;
     private final UsersService usersService;
 
+    private ResponseEntity<?> errorValidation(Errors errors) {
+        List<ResponseError> responseErrorList = new ArrayList<>();
+
+        if (errors.hasErrors()) {
+            errors.getAllErrors().forEach((e) -> {
+                responseErrorList.add(ResponseError.of((FieldError) e));
+            });
+            return new ResponseEntity<>(responseErrorList, HttpStatus.BAD_REQUEST);
+        }
+        return null;
+    }
+
     //매장 정보 등록 (점주용)
     @PostMapping("/api/store/registration")
     public ResponseEntity<?> storeRegistration(
             @RequestHeader("STORE-TOKEN") String token
-            , @RequestBody @Valid StoreInput storeInput) {
+            , @RequestBody @Valid StoreInput storeInput
+            ,Errors errors) {
+
+        ResponseEntity<?> responseErrorList1 = errorValidation(errors);
+        if (responseErrorList1 != null) return responseErrorList1;
 
         Users user = usersService.getUserFromToken(token);
 
@@ -66,4 +90,9 @@ public class ApiStoreController {
         return ResponseResult.result(storeDetail.getObject());
     }
 
+
+    @ExceptionHandler(StoreRegistrationException.class)
+    public ResponseEntity<String> StoreRegistrationExceptionHandler(StoreRegistrationException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

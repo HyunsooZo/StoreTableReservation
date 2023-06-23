@@ -22,7 +22,6 @@ public class Store {
     private Long id;
 
     @Column
-    @NotBlank(message = "상점이름 항목은 필수입니다.")
     private String storeName;
 
     @ManyToOne
@@ -31,23 +30,18 @@ public class Store {
     private Users user;
 
     @Column
-    @NotBlank(message = "위치 항목은 필수입니다.")
     private String storeLocation;
 
     @Column
-    @NotBlank(message = "상점설명 항목은 필수입니다.")
     private String storeDetail;
 
     @Column
-    @NotBlank(message = "위치 항목은 필수입니다.")
     private double latitude;
 
     @Column
-    @NotBlank(message = "위치 항목은 필수입니다.")
     private double longitude;
 
     @Column
-    @Nullable
     private int rate;
 
 }

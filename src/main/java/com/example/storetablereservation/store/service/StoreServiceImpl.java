@@ -1,6 +1,7 @@
 package com.example.storetablereservation.store.service;
 
 
+import com.example.storetablereservation.common.exception.StoreRegistrationException;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.common.util.DistanceCalculator;
 import com.example.storetablereservation.store.entity.Store;
@@ -11,7 +12,6 @@ import com.example.storetablereservation.store.model.StoreSearchInput;
 import com.example.storetablereservation.store.repository.StoreRepository;
 import com.example.storetablereservation.users.entity.Users;
 import com.example.storetablereservation.users.model.UserType;
-import com.example.storetablereservation.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +26,21 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public ServiceResult registerStore(Users user, StoreInput storeInput) {
         //유저 정보 가져와서 점주인지 아닌지 확인
-
         if (!user.getUserType().equals(UserType.STOREKEEPER)) {
-            return ServiceResult.fail("상점주 회원만 상품등록을 진행할 수 있습니다.");
+            throw new StoreRegistrationException("상점주 회원만 상품등록을 진행할 수 있습니다.");
         }
+
+        //이미 매장이 등록된 회원인지 확인
+        Optional<Store> optionalStore = storeRepository.findByUser(user);
+        if(optionalStore.isPresent()){
+            throw new StoreRegistrationException("같은 계정으로 이미 등록된 매장이 존재합니다." +
+                    "매장은 계정 당 한 개만 등록할 수 있습니다.");
+        }
+
         //상점주일 경우 해당 상점 정보 저장
         storeRepository.save(Store.builder()
                 .storeName(storeInput.getStoreName())
-                .storeLocation(storeInput.getStoreLocation())
+                .storeLocation(storeInput.getStoreAddress())
                 .storeDetail(storeInput.getStoreDetail())
                 .latitude(storeInput.getLatitude())
                 .longitude(storeInput.getLongitude())

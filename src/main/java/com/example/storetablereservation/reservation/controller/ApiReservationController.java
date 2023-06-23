@@ -1,6 +1,8 @@
 package com.example.storetablereservation.reservation.controller;
 
 
+import com.example.storetablereservation.common.exception.ReservationException;
+import com.example.storetablereservation.common.exception.StoreRegistrationException;
 import com.example.storetablereservation.common.model.ResponseResult;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.reservation.model.ReservationInput;
@@ -8,6 +10,7 @@ import com.example.storetablereservation.reservation.model.ReservationListInput;
 import com.example.storetablereservation.reservation.service.ReservationService;
 import com.example.storetablereservation.users.entity.Users;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +84,9 @@ public class ApiReservationController {
         return ResponseResult.result(result.getObject());
     }
 
-
+    @ExceptionHandler(ReservationException.class)
+    public ResponseEntity<String> StoreRegistrationExceptionHandler(ReservationException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

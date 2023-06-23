@@ -34,13 +34,12 @@ public class UsersInput {
     @NotBlank(message = "전화번호 항목은 필수입니다.")
     private String phone;
 
-    @NotBlank(message = "고객유형 항목은 필수입니다.")
     private UserType userType;
 
-    @NotNull(message = "위치정보 항목은 필수입니다.")
+    @NotNull
     private Double latitude;
 
-    @NotNull(message = "위치정보 항목은 필수입니다.")
+    @NotNull
     private Double Longitude;
 
 }

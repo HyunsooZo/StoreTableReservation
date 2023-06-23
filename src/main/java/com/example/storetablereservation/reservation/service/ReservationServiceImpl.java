@@ -2,6 +2,7 @@ package com.example.storetablereservation.reservation.service;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.example.storetablereservation.common.exception.InvalidTokenException;
+import com.example.storetablereservation.common.exception.ReservationException;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.common.util.JWTUtil;
 import com.example.storetablereservation.reservation.entity.Reservation;
@@ -89,7 +90,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ServiceResult reservationConfirm(Users user) {
         Optional<Reservation> optionalReservation = reservationRepository.findByUser(user);
         if (!optionalReservation.isPresent()) {
-            return ServiceResult.fail("예약내역이 존재하지 않습니다.");
+            throw new ReservationException("예약내역이 존재하지 않습니다.");
         }
         Reservation reservation = optionalReservation.get();
 
@@ -110,7 +111,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ServiceResult reservationApproval(Long id, Users user) {
         if(!user.getUserType().equals(UserType.STOREKEEPER)){
-            return ServiceResult.fail("예약승인은 점주 회원만 가능합니다.");
+            throw new ReservationException("예약승인은 파트너회원만 가능합니다.");
         }
 
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
@@ -127,7 +128,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ServiceResult reservationDisapproval(Long id, Users user) {
         if(!user.getUserType().equals(UserType.STOREKEEPER)){
-            return ServiceResult.fail("예약승인은 점주 회원만 가능합니다.");
+            throw new ReservationException("예약거절은 파트너회원만 가능합니다.");
         }
 
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
@@ -145,11 +146,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ServiceResult listReservation(Users user, ReservationListInput reservationListInput) {
         if(!user.getUserType().equals(UserType.STOREKEEPER)){
-            return ServiceResult.fail("예약목록조회는 파트너 회원만 가능합니다.");
+            throw new ReservationException("예약내역조회는 파트너회원만 가능합니다.");
         }
         Optional<Store> optionalStore = storeRepository.findByUser(user);
         if(!optionalStore.isPresent()){
-            return ServiceResult.fail("매장이 등록된 파트너 회원만 예약목록조회가 가능합니다.");
+            throw new ReservationException("매장을 등록한 파트너회원만 예약내역조회가 가능합니다.");
         }
         Store store = optionalStore.get();
 
