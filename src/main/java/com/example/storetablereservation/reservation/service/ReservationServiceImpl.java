@@ -98,6 +98,10 @@ public class ReservationServiceImpl implements ReservationService {
             throw new ReservationException("매장에서 아직 승인하지 않은 예약입니다.");
         }
 
+        if(reservation.getReservationTime().minusMinutes(10).isBefore(LocalDateTime.now())){
+            throw new ReservationException("죄송합니다. 예약 전 10분이 지난 후에는 도착확인이 불가합니다.");
+        }
+
         reservation.setCheckInYn(true);
         reservation.setConfirmDate(LocalDateTime.now());
 

@@ -85,7 +85,7 @@ public class ApiReservationController {
     }
 
     @ExceptionHandler(ReservationException.class)
-    public ResponseEntity<String> StoreRegistrationExceptionHandler(ReservationException exception) {
+    public ResponseEntity<String> ReservationExceptionHandler(ReservationException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

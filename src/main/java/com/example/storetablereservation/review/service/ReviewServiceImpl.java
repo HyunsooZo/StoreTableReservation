@@ -55,17 +55,24 @@ public class ReviewServiceImpl implements ReviewService{
         if(!reservation.getCheckInYn()){
             throw new ReviewException("아직 진행되지 않은 예약입니다. 예약 확인 후 리뷰를 작성할 수 있습니다.");
         }
-        int rate = getAverageRateOfTheStore(reviewInput.getRate(), reservation.getStore());
 
         reviewRepository.save(
                 Review.builder()
                 .user(user)
                 .store(reservation.getStore())
-                .rate(rate)
+                .rate(reservation.getStore().getRate())
                 .comment(reviewInput.getComment())
                 .regDate(LocalDateTime.now())
                 .build()
         );
+
+        int averageRate = getAverageRateOfTheStore(reviewInput.getRate(), reservation.getStore());
+
+        Store store = reservation.getStore();
+        store.setRate(averageRate);
+
+        storeRepository.save(store);
+
         return ServiceResult.success("리뷰등록이 완료되었습니다.");
     }
 
