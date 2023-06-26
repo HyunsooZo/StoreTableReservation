@@ -3,9 +3,6 @@ package com.example.storetablereservation.common.util;
 import java.text.DecimalFormat;
 
 public class DistanceCalculator {
-    // 지구 평균 반지름 (단위: km)
-    private static final double EARTH_RADIUS = 6378.1370;
-
     public static String calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         // 위도와 경도를 라디안 단위로 변환
         double lat1Rad = Math.toRadians(lat1);

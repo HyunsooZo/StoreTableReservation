@@ -2,7 +2,6 @@ package com.example.storetablereservation.reservation.controller;
 
 
 import com.example.storetablereservation.common.exception.ReservationException;
-import com.example.storetablereservation.common.exception.StoreRegistrationException;
 import com.example.storetablereservation.common.model.ResponseResult;
 import com.example.storetablereservation.common.model.ServiceResult;
 import com.example.storetablereservation.reservation.model.ReservationInput;
@@ -13,10 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,11 +47,11 @@ public class ApiReservationController {
     @GetMapping("/api/reservation/list")
     public ResponseEntity<?> getReservationList(
             @RequestHeader("STORE-TOKEN") String token,
-            @RequestBody ReservationListInput reservationListInput){
+            @RequestBody ReservationListInput reservationListInput) {
 
         Users user = reservationService.getUserFromToken(token);
 
-        ServiceResult result = reservationService.listReservation(user,reservationListInput);
+        ServiceResult result = reservationService.listReservation(user, reservationListInput);
 
         return ResponseResult.result(result.getObject());
     }
@@ -68,7 +63,7 @@ public class ApiReservationController {
             @RequestHeader("STORE-TOKEN") String token) {
         Users user = reservationService.getUserFromToken(token);
 
-        ServiceResult result = reservationService.reservationApproval(id,user);
+        ServiceResult result = reservationService.reservationApproval(id, user);
 
         return ResponseResult.result(result.getObject());
     }
@@ -79,7 +74,7 @@ public class ApiReservationController {
             @RequestHeader("STORE-TOKEN") String token) {
         Users user = reservationService.getUserFromToken(token);
 
-        ServiceResult result = reservationService.reservationDisapproval(id,user);
+        ServiceResult result = reservationService.reservationDisapproval(id, user);
 
         return ResponseResult.result(result.getObject());
     }

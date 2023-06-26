@@ -103,6 +103,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         reservation.setCheckInYn(true);
+        reservation.setStatus(Status.CLOSED);
         reservation.setConfirmDate(LocalDateTime.now());
 
         reservationRepository.save(reservation);
