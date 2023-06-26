@@ -45,10 +45,12 @@ public class ReviewController {
     public ResponseEntity<?> postReview(
             @PathVariable Long id,
             @RequestHeader("STORE-TOKEN") String token,
-            @RequestBody @Valid ReviewInput reviewInput,
-            Errors errors){
+            @Valid @RequestBody ReviewInput reviewInput, Errors errors){
 
-        errorValidation(errors);
+        ResponseEntity<?> errorResponse = errorValidation(errors);
+        if (errorResponse != null) {
+            return errorResponse;
+        }
 
         Users user = usersService.getUserFromToken(token);
         ServiceResult result = reviewService.reviewPost(user, id, reviewInput);

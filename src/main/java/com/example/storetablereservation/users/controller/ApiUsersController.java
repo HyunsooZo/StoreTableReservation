@@ -46,7 +46,7 @@ public class ApiUsersController {
     //유저 등록 (테스트 완료)
     @PostMapping("/api/user/registration")
     public ResponseEntity<?> registration(
-            @RequestBody @Valid UsersInput usersInput,
+            @Valid @RequestBody UsersInput usersInput,
             Errors errors) {
 
         ResponseEntity<?> responseErrorList1 = errorValidation(errors);
@@ -59,7 +59,7 @@ public class ApiUsersController {
     //로그인 (테스트 완료)
       @PostMapping("/api/user/login")
     public ResponseEntity<?> createToken(
-            @RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
+              @Valid @RequestBody UserLoginInput userLoginInput, Errors errors) {
 
         ResponseEntity<?> responseErrorList = errorValidation(errors);
         if (responseErrorList != null) return responseErrorList;

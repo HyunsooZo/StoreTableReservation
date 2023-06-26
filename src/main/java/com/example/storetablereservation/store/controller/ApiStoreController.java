@@ -44,7 +44,7 @@ public class ApiStoreController {
     @PostMapping("/api/store/registration")
     public ResponseEntity<?> storeRegistration(
             @RequestHeader("STORE-TOKEN") String token
-            , @RequestBody @Valid StoreInput storeInput
+            , @Valid @RequestBody StoreInput storeInput
             ,Errors errors) {
 
         ResponseEntity<?> responseErrorList1 = errorValidation(errors);

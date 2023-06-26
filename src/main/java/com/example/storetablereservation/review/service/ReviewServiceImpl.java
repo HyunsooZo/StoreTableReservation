@@ -26,8 +26,10 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
 
-    //리뷰 등록 시 별점 계산을 위해 사용되는 프라이빗 함수
-    private int getAverageRateOfTheStore(int rate, Store store){
+    //리뷰 등록 시 별점 계산을 위해 사용되는함수
+
+    @Override
+    public int getAverageRateOfTheStore(int rate, Store store){
         Optional<List<Review>> optionalReview = reviewRepository.findByStore(store);
         if(!optionalReview.isPresent()){
             return rate;
@@ -60,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService{
                 Review.builder()
                 .user(user)
                 .store(reservation.getStore())
-                .rate(reservation.getStore().getRate())
+                .rate(reviewInput.getRate())
                 .comment(reviewInput.getComment())
                 .regDate(LocalDateTime.now())
                 .build()
