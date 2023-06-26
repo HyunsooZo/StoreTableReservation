@@ -40,7 +40,7 @@ public class ApiStoreController {
         return null;
     }
 
-    //매장 정보 등록 (점주용)
+    //매장 정보 등록 (점주용) (테스트 완료)
     @PostMapping("/api/store/registration")
     public ResponseEntity<?> storeRegistration(
             @RequestHeader("STORE-TOKEN") String token
@@ -59,7 +59,7 @@ public class ApiStoreController {
     }
 
 
-    //매장 전체 리스트 조회
+    //매장 전체 리스트 조회 (테스트 완료)
     @GetMapping("/api/store/list")
     public ResponseEntity<?> getStoreList(
             @RequestHeader("STORE-TOKEN") String token,
@@ -73,7 +73,7 @@ public class ApiStoreController {
     }
 
 
-    //매장 상세정보 조회(고객)
+    //매장 상세정보 조회(고객) (테스트 완료)
     @GetMapping("/api/store/{id}/detail")
     public ResponseEntity<?> storeDetail(
             @PathVariable Long id,

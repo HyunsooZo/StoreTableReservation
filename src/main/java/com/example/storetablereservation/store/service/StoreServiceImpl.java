@@ -26,7 +26,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public ServiceResult registerStore(Users user, StoreInput storeInput) {
         //유저 정보 가져와서 점주인지 아닌지 확인
-        if (!user.getUserType().equals(UserType.STOREKEEPER)) {
+        if (!user.getUserType().equals(UserType.PARTNER)) {
             throw new StoreRegistrationException("상점주 회원만 상품등록을 진행할 수 있습니다.");
         }
 

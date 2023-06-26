@@ -35,13 +35,15 @@ public class UsersServiceImpl implements UsersService {
         try {
             email = JWTUtil.getIssuer(token);
         } catch (SignatureVerificationException e) {
-            throw new InvalidTokenException("토큰 정보가 정확히지 않습니다.");
+            throw new InvalidTokenException("토큰이 만료되었습니다. 다시 로그인 해주세요");
+        } catch (Exception e){
+            throw new InvalidTokenException("토큰검증에 실패했습니다. 다시 로그인 해주세요");
         }
 
         Optional<Users> optionalUser = usersRepository.findByEmail(email);
 
         if (optionalUser.isEmpty()) {
-            throw new InvalidTokenException("토큰 정보가 정확히지 않습니다.");
+            throw new InvalidTokenException("토큰이 만료되었습니다. 다시 로그인 해주세요");
         }
         return optionalUser.get();
     }

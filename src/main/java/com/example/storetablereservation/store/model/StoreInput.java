@@ -26,6 +26,6 @@ public class StoreInput {
     private double latitude;
 
     @NotNull
-    private double Longitude;
+    private double longitude;
 
 }

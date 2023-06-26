@@ -9,14 +9,12 @@ import java.time.LocalDate;
 
 public interface ReservationService {
     
-    //유저 토큰 검증용 함수
-    Users getUserFromToken(String token);
-    
+
     //예약 생성용 함수
     ServiceResult makeAReservation(Long id,Users user, ReservationInput reservationInput);
 
     //매장 방분 후 키오스트 예약 확인용 함수 
-    ServiceResult reservationConfirm(Users user);
+    ServiceResult reservationConfirm(Users user,Long id);
 
     ServiceResult reservationApproval(Long id, Users user);
 

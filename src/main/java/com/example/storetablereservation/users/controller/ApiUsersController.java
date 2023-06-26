@@ -28,6 +28,8 @@ import java.util.List;
 public class ApiUsersController {
     private final UsersService usersService;
 
+
+    //검증에러 발생 시 에러 처리 (테스트 완료)
     private ResponseEntity<?> errorValidation(Errors errors) {
         List<ResponseError> responseErrorList = new ArrayList<>();
 
@@ -40,6 +42,8 @@ public class ApiUsersController {
         return null;
     }
 
+
+    //유저 등록 (테스트 완료)
     @PostMapping("/api/user/registration")
     public ResponseEntity<?> registration(
             @RequestBody @Valid UsersInput usersInput,
@@ -52,6 +56,7 @@ public class ApiUsersController {
         return ResponseResult.result(result);
     }
 
+    //로그인 (테스트 완료)
       @PostMapping("/api/user/login")
     public ResponseEntity<?> createToken(
             @RequestBody @Valid UserLoginInput userLoginInput, Errors errors) {
@@ -67,6 +72,8 @@ public class ApiUsersController {
         return ResponseResult.result(result);
     }
 
+
+    //Exception핸들러(토큰/로그인) (테스트 완료)
     @ExceptionHandler(InvalidLoginException.class)
     public ResponseEntity<String> InvalidLoginExceptionHandler(InvalidLoginException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);

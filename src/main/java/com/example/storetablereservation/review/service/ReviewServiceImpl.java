@@ -85,7 +85,7 @@ public class ReviewServiceImpl implements ReviewService{
         Store store = optionalStore.get();
         Optional<List<Review>> optionalReviewList = reviewRepository.findByStore(store);
         if(!optionalReviewList.isPresent()){
-            return ServiceResult.fail("리뷰가 존재하지 않습니다.");
+            throw new ReviewException("리뷰가 존재하지 않습니다.");
         }
         List<Review> reviewList = optionalReviewList.get();
 

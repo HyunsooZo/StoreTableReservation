@@ -40,6 +40,6 @@ public class UsersInput {
     private Double latitude;
 
     @NotNull
-    private Double Longitude;
+    private Double longitude;
 
 }
