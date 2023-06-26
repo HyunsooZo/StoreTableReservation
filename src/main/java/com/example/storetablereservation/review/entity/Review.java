@@ -2,7 +2,10 @@ package com.example.storetablereservation.review.entity;
 
 import com.example.storetablereservation.store.entity.Store;
 import com.example.storetablereservation.users.entity.Users;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +56,16 @@ public class ApiUsersController {
     }
 
     //로그인 (테스트 완료)
-      @PostMapping("/api/user/login")
+    @PostMapping("/api/user/login")
     public ResponseEntity<?> createToken(
-              @Valid @RequestBody UserLoginInput userLoginInput, Errors errors) {
+            @Valid @RequestBody UserLoginInput userLoginInput, Errors errors) {
 
         ResponseEntity<?> responseErrorList = errorValidation(errors);
         if (responseErrorList != null) return responseErrorList;
 
         ServiceResult result = usersService.userLogin(userLoginInput);
         // 토큰 반환
-        if(result.isFail()){
+        if (result.isFail()) {
             return ResponseResult.fail(result.getMessage());
         }
         return ResponseResult.result(result);
@@ -78,6 +77,7 @@ public class ApiUsersController {
     public ResponseEntity<String> InvalidLoginExceptionHandler(InvalidLoginException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<String> InvalidTokenExceptionHandler(InvalidTokenException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);

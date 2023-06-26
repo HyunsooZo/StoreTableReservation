@@ -1,7 +1,6 @@
 package com.example.storetablereservation.store.controller;
 
 
-import com.example.storetablereservation.common.exception.InvalidLoginException;
 import com.example.storetablereservation.common.exception.StoreRegistrationException;
 import com.example.storetablereservation.common.model.ResponseError;
 import com.example.storetablereservation.common.model.ResponseResult;

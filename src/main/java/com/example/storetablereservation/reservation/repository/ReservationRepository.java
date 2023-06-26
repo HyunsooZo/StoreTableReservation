@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface ReservationRepository extends JpaRepository<Reservation,Long> {
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    // 유저로 예약 조회
     Optional<Reservation> findByUser(Users user);
 
     //일별 예약목록 조회 (파트너)

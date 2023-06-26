@@ -41,7 +41,7 @@ public class ApiReservationController {
             @PathVariable Long id,
             @RequestHeader("STORE-TOKEN") String token) {
         Users user = usersService.getUserFromToken(token);
-        ServiceResult result = reservationService.reservationConfirm(user,id);
+        ServiceResult result = reservationService.reservationConfirm(user, id);
 
         return ResponseResult.result(result.getObject());
     }

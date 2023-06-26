@@ -1,7 +1,6 @@
 package com.example.storetablereservation.review.controller;
 
 
-import com.example.storetablereservation.common.exception.InvalidLoginException;
 import com.example.storetablereservation.common.exception.ReviewException;
 import com.example.storetablereservation.common.model.ResponseError;
 import com.example.storetablereservation.common.model.ResponseResult;
@@ -45,7 +44,7 @@ public class ReviewController {
     public ResponseEntity<?> postReview(
             @PathVariable Long id,
             @RequestHeader("STORE-TOKEN") String token,
-            @Valid @RequestBody ReviewInput reviewInput, Errors errors){
+            @Valid @RequestBody ReviewInput reviewInput, Errors errors) {
 
         ResponseEntity<?> errorResponse = errorValidation(errors);
         if (errorResponse != null) {
@@ -63,7 +62,7 @@ public class ReviewController {
     @GetMapping("/api/review/store/{id}")
     public ResponseEntity<?> StoreReviews(
             @PathVariable Long id,
-            @RequestHeader("STORE-TOKEN") String token){
+            @RequestHeader("STORE-TOKEN") String token) {
 
         usersService.getUserFromToken(token);
         ServiceResult result = reviewService.getStoreReviews(id);

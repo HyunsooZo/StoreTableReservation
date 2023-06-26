@@ -1,5 +1,6 @@
 ### 매장 테이블 예약 서비스
   
+##### 시나리오
 **식당이나 점포를 이용하기 전에 미리 예약을 하여 편하게 식당/점포를 이용할 수 있는 서비스 개발”**
 - [x] 매장의 점장은 예약 서비스 앱에 상점을 등록(매장 명, 상점위치, 상점 설명)
 - [x] 매장을 등록하기 위해서는 파트너 회원 가입필요 (승인 조건 X ,가입 후 바로 이용 가능)
@@ -12,8 +13,10 @@
 ##### <User 관련 함수>
 1. 토큰 및 유저정보 검증용 (토큰/유저정보 유효할때만 정상값 반환)<br>
     _Users getUserFromToken(String token);_<br>
+
 2. 사용자의 이름 , 이메일, 비밀번호, 전화번호, 사용자유형(고객/점주/관리자)를 받아 회원가입 진행<br>
     _ServiceResult userRegistration(UsersInput usersInput);_<br>
+
 3. 고객의 이메일 / 비밀번호 검증하여 토큰 발행<br>
     _ServiceResult userLogin(UserLoginInput userLoginInput);_<br>
     _String tokenIssue(Users user); (내부 호출)_<br>
@@ -21,20 +24,26 @@
 ##### <Store 관련 함수>
 1. 매장 정보 등록 ( 점주 )<br>
    _ServiceResult registerStore(Users user, StoreInput storeInput);_<br>
+
 2. 모든 매장(검색키워드 미입력시)또는 검색키워드가 포함된 매장 리스트 검색<br>
    _ServiceResult getStoreList(Users user, StoreSearchInput storeSearchInput);_<br>
+
 3. 매장 상세정보 반환하는 함수<br>
    _ServiceResult getStoreDetail(Long id);_<br>
 
 ##### <Reservation 관련 함수>
 1. 예약 생성용 함수<br>
     _ServiceResult makeAReservation(Long id,Users user, ReservationInput reservationInput);_<br>
+
 2. 매장 방문 후 키오스크 예약 확인용 함수<br>
    _ServiceResult reservationConfirm(Users user,Long id);_<br>
+
 3. 예약 승인 ( 파트너 회원용 )<br>
    _ServiceResult reservationApproval(Long id, Users user);_<br>
+
 4.  예약 거절 ( 파트너 회원용 )<br>
     _ServiceResult reservationDisapproval(Long id, Users user);_<br>
+
 5. 예약 목록 보기 ( 파트너 회원용)<br>
     _ServiceResult listReservation(Users user, ReservationListInput reservationListInput);_<br>
 

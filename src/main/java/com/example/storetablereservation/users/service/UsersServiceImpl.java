@@ -36,7 +36,7 @@ public class UsersServiceImpl implements UsersService {
             email = JWTUtil.getIssuer(token);
         } catch (SignatureVerificationException e) {
             throw new InvalidTokenException("토큰이 만료되었습니다. 다시 로그인 해주세요");
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new InvalidTokenException("토큰검증에 실패했습니다. 다시 로그인 해주세요");
         }
 
@@ -47,7 +47,6 @@ public class UsersServiceImpl implements UsersService {
         }
         return optionalUser.get();
     }
-
 
 
     //비번 암호화 함수
@@ -82,9 +81,9 @@ public class UsersServiceImpl implements UsersService {
     public ServiceResult userLogin(UserLoginInput userLoginInput) {
 
         Users user = usersRepository.findByEmail(userLoginInput.getEmail())
-                .orElseThrow(()-> new InvalidLoginException("존재하지 않는 회원 입니다."));
+                .orElseThrow(() -> new InvalidLoginException("존재하지 않는 회원 입니다."));
 
-        if(!PasswordUtil.isPasswordValid(userLoginInput.getPassword(), user.getPassword())){
+        if (!PasswordUtil.isPasswordValid(userLoginInput.getPassword(), user.getPassword())) {
             throw new InvalidLoginException("비밀번호가 일치하지 않습니다.");
         }
 

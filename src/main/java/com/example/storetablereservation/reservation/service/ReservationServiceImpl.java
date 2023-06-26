@@ -38,10 +38,10 @@ public class ReservationServiceImpl implements ReservationService {
         Store store = optionalStore.get();
 
         Optional<Reservation> optionalReservation = reservationRepository.findByUser(user);
-        if(optionalReservation.isPresent()){
-            if(optionalReservation.get().getStatus()== WAITING
-                    || optionalReservation.get().getStatus()== ACCEPTED
-                    && optionalReservation.get().getStore()==store){
+        if (optionalReservation.isPresent()) {
+            if (optionalReservation.get().getStatus() == WAITING
+                    || optionalReservation.get().getStatus() == ACCEPTED
+                    && optionalReservation.get().getStore() == store) {
                 throw new ReservationException("같은 매장에 이미 완료되지 않은 예약이 존재합니다.");
             }
         }

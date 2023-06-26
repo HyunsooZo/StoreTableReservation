@@ -8,7 +8,7 @@ import com.example.storetablereservation.users.entity.Users;
 public interface ReviewService {
 
     //리뷰 작성 (별점, 코멘트)
-    ServiceResult reviewPost(Users user, Long id , ReviewInput reviewInput);
+    ServiceResult reviewPost(Users user, Long id, ReviewInput reviewInput);
 
     //스토어의 평균 리뷰점수, 각 유저들이 남긴 리뷰(코멘트,별점)리스트로 가져오는 함수
     ServiceResult getStoreReviews(Long id);
