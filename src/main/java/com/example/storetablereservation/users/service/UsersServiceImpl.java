@@ -48,7 +48,6 @@ public class UsersServiceImpl implements UsersService {
         return optionalUser.get();
     }
 
-
     //비번 암호화 함수
     private String getEncryptPassword(String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -56,6 +55,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
 
+    // 회원가입 함수
     @Override
     public ServiceResult userRegistration(UsersInput usersInput) {
         long existing = usersRepository.countByEmail(usersInput.getEmail());
@@ -77,6 +77,8 @@ public class UsersServiceImpl implements UsersService {
         return ServiceResult.success();
     }
 
+
+    //로그인 및 토큰 발행
     @Override
     public ServiceResult userLogin(UserLoginInput userLoginInput) {
 
@@ -91,6 +93,7 @@ public class UsersServiceImpl implements UsersService {
         return ServiceResult.success(tokenIssue(user));
     }
 
+    //토큰발행
     @Override
     public String tokenIssue(Users user) {
         //토큰발행 (유효기간 1일)

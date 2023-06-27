@@ -32,7 +32,7 @@ public class Users {
     @Column
     private String phone;
 
-    //UserType(Enum) 으로 고객과 점주 , 관리자를 구분한다.
+    //UserType(Enum) 으로 고객과 점주를 구분한다.
     @Column
     @JsonIgnore
     @Enumerated(EnumType.STRING)
